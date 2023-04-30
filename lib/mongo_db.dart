@@ -11,6 +11,20 @@ class MongoDatabase {
     var status = db.serverStatus();
     print(status);
     var collection = db.collection(COLLECTION_NAME);
-    print(await collection.find().toList());
+
+    // Insert or create data:
+    await collection.insertOne({
+      "username": "huzaifak08",
+      "age": "22",
+      "email": "hk7928042@gmail.com"
+    });
+
+    // Insert many Objects:
+    await collection.insertMany([
+      {"username": "hanzlak08", "age": "15", "email": "hanzla@gmail.com"},
+      {"username": "hanzla2k08", "age": "14", "email": "hanzla2@gmail.com"}
+    ]);
+
+    print(await collection.find().toList()); // Print the data in collection.
   }
 }
