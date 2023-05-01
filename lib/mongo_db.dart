@@ -25,6 +25,10 @@ class MongoDatabase {
       {"username": "hanzla2k08", "age": "14", "email": "hanzla2@gmail.com"}
     ]);
 
+    // Update:
+    await collection.update(
+        where.eq('username', 'hanzla2k08'), modify.set('username', 'hamza08'));
+
     print(await collection.find().toList()); // Print the data in collection.
   }
 }
