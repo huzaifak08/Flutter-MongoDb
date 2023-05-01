@@ -29,6 +29,10 @@ class MongoDatabase {
     await collection.update(
         where.eq('username', 'hanzla2k08'), modify.set('username', 'hamza08'));
 
+    // Delete:
+    await collection.deleteOne(where.eq('username', 'hamza08'));
+    await collection.deleteMany({'username': 'hamza08'});
+
     print(await collection.find().toList()); // Print the data in collection.
   }
 }
