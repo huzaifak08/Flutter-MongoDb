@@ -4,14 +4,14 @@ import 'package:flutter_mongodb/Mongo%20Essentials/mongo_db.dart';
 import 'package:flutter_mongodb/Mongo%20Models/mongo_model.dart';
 import 'package:mongo_dart/mongo_dart.dart' as M;
 
-class MongoDbInsert extends StatefulWidget {
-  const MongoDbInsert({super.key});
+class InsertMongoDb extends StatefulWidget {
+  const InsertMongoDb({super.key});
 
   @override
-  State<MongoDbInsert> createState() => _MongoDbInsertState();
+  State<InsertMongoDb> createState() => _InsertMongoDbState();
 }
 
-class _MongoDbInsertState extends State<MongoDbInsert> {
+class _InsertMongoDbState extends State<InsertMongoDb> {
   final nameController = TextEditingController();
   final ageController = TextEditingController();
   final emailController = TextEditingController();
@@ -19,7 +19,7 @@ class _MongoDbInsertState extends State<MongoDbInsert> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Inser in MongoDb')),
+      appBar: AppBar(title: const Text('Insert in MongoDb')),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -50,6 +50,8 @@ class _MongoDbInsertState extends State<MongoDbInsert> {
                     onPressed: () {
                       _insertData(nameController.text, ageController.text,
                           emailController.text);
+
+                      Navigator.pop(context);
                     },
                     child: const Text('Insert Data')),
               ],

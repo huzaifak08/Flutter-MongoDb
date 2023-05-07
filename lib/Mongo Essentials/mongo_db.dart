@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:flutter_mongodb/Mongo%20Essentials/mongo_constants.dart';
 import 'package:flutter_mongodb/Mongo%20Models/mongo_model.dart';
@@ -18,6 +17,7 @@ class MongoDatabase {
     print(await collection.find().toList()); // Print the data in collection.
   }
 
+  // Insert Data in MongoDB:
   static Future<String> insert(MongoModel data) async {
     try {
       var result = await collection.insertOne(data.toJson());
@@ -30,5 +30,11 @@ class MongoDatabase {
       print(e.toString());
       return e.toString();
     }
+  }
+
+  // Display Data in MongoDB:
+  static Future<List<Map<String, dynamic>>> getData() async {
+    final arrData = await collection.find().toList();
+    return arrData;
   }
 }
