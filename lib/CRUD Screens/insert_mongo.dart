@@ -16,10 +16,22 @@ class _InsertMongoDbState extends State<InsertMongoDb> {
   final ageController = TextEditingController();
   final emailController = TextEditingController();
 
+  var _checkInsertUpdate = 'Insert';
+
   @override
   Widget build(BuildContext context) {
+    MongoModel data = ModalRoute.of(context)?.settings.arguments as MongoModel;
+
+    if (data != null) {
+      nameController.text = data.username;
+      ageController.text = data.age;
+      emailController.text = data.email;
+
+      _checkInsertUpdate = 'Update';
+    }
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Insert in MongoDb')),
+      appBar: AppBar(title: Text(_checkInsertUpdate)),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -48,12 +60,17 @@ class _InsertMongoDbState extends State<InsertMongoDb> {
                     child: const Text('Generate Data')),
                 ElevatedButton(
                     onPressed: () {
-                      _insertData(nameController.text, ageController.text,
-                          emailController.text);
+                      if (_checkInsertUpdate == 'Update') {
+                        _updateData(data.id, nameController.text,
+                            ageController.text, emailController.text);
+                      } else {
+                        _insertData(nameController.text, ageController.text,
+                            emailController.text);
 
-                      Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
                     },
-                    child: const Text('Insert Data')),
+                    child: Text(_checkInsertUpdate)),
               ],
             )
           ],
@@ -73,6 +90,15 @@ class _InsertMongoDbState extends State<InsertMongoDb> {
         .showSnackBar(SnackBar(content: Text('Inserted Id ${_id.$oid}')));
 
     _clearAll();
+  }
+
+  Future<void> _updateData(
+      var id, String name, String age, String email) async {
+    final updateData =
+        MongoModel(id: id, username: name, age: age, email: email);
+
+    await MongoDatabase.update(updateData)
+        .whenComplete(() => Navigator.pop(context));
   }
 
   void _clearAll() {

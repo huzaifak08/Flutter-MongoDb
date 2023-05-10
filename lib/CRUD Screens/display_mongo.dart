@@ -61,13 +61,36 @@ class _DisplayMongoDbState extends State<DisplayMongoDb> {
   }
 
   Widget displayCard(MongoModel data) {
-    return Column(
+    return Row(
       children: [
-        Text('id: ${data.id}'),
-        Text('name: ${data.username}'),
-        Text('email: ${data.email}'),
-        Text('age: ${data.age}'),
-        const SizedBox(height: 20),
+        Column(
+          children: [
+            Text('id: ${data.id}'),
+            Text('name: ${data.username}'),
+            Text('email: ${data.email}'),
+            Text('age: ${data.age}'),
+            const SizedBox(height: 20),
+          ],
+        ),
+        IconButton(
+            onPressed: () {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const InsertMongoDb(),
+                          settings: RouteSettings(arguments: data)))
+                  .then((value) {
+                setState(() {});
+              });
+            },
+            icon: const Icon(Icons.edit)),
+        IconButton(
+            onPressed: () async {
+              print(data.id);
+              await MongoDatabase.delete(data);
+              setState(() {});
+            },
+            icon: const Icon(Icons.delete))
       ],
     );
   }

@@ -9,7 +9,7 @@ class MongoDatabase {
 
   static connect() async {
     db = await Db.create(MONGO_URL);
-    await db.open();
+    await db.open(secure: true);
     inspect(db); // This will print some extra details on terminal.
     var status = db.serverStatus();
     print(status);
@@ -36,5 +36,20 @@ class MongoDatabase {
   static Future<List<Map<String, dynamic>>> getData() async {
     final arrData = await collection.find().toList();
     return arrData;
+  }
+
+  // Update Data in MongoDB:
+  static Future<void> update(MongoModel data) async {
+    var result = await collection.findOne({'_id': data.id});
+    result['username'] = data.username;
+    result['age'] = data.age;
+    result['email'] = data.email;
+    var response = await collection.save(result);
+    inspect(response);
+  }
+
+  // Delete Data in MongoDB:
+  static delete(MongoModel user) async {
+    await collection.remove(where.id(user.id));
   }
 }
