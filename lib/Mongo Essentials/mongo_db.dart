@@ -52,4 +52,10 @@ class MongoDatabase {
   static delete(MongoModel user) async {
     await collection.remove(where.id(user.id));
   }
+
+  // Query in MongoDB:
+  static Future<List<Map<String, dynamic>>> getQueryData() async {
+    final data = await collection.find().toList();
+    return data;
+  }
 }
